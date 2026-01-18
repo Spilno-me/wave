@@ -8,7 +8,7 @@
 
 Wave is a collaborative AI workspace where teams (humans + agents) work together. It's the business-facing interface to CEDA pattern memory.
 
-**Repository**: github.com/spilno/wave
+**Repository**: github.com/Spilno-me/wave
 **Deploy**: wave.getceda.com (Railway)
 **Related**: CEDA (pattern storage), Herald (pattern SDK)
 
