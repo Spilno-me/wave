@@ -128,16 +128,55 @@ DEPLOY TO
 
 ## Data Architecture
 
-### Separation Rule
+### Storage: Firestore (Wave's own persistence)
+
+```
+/rooms/{roomId}
+  - name: string
+  - topic: string
+  - createdAt: timestamp
+  - createdBy: string (pseudonym)
+  - status: 'active' | 'archived'
+
+/rooms/{roomId}/participants/{odId}
+  - type: 'human' | 'agent'
+  - name: string (display only)
+  - pseudonym: string
+  - joinedAt: timestamp
+
+/rooms/{roomId}/messages/{messageId}
+  - content: MessageContent (see types)
+  - sender: string (pseudonym)
+  - timestamp: timestamp
+  - type: 'text' | 'artifact' | 'table' | 'image' | 'file'
+```
+
+### Separation Rule (GDPR/SOC2)
 
 ```
 PII (Deletable)              Operational (Immutable)
 ─────────────────────────────────────────────────────
-Firebase only:               Everywhere else:
+Firebase Auth only:          Firestore + Herald:
 • Real name                  • user_abc123 (pseudonym)
 • Email                      • Actions
-• Phone                      • Patterns
-                             • Messages (pseudonymized)
+• Phone                      • Messages (pseudonymized)
+                             • Patterns (via Herald)
+```
+
+### Wave ↔ Herald (Decoupled)
+
+Wave does NOT depend on CEDA. Herald is optional SDK integration.
+
+```typescript
+// Herald is fire-and-forget, not storage
+import { herald } from '@ceda/herald-sdk';
+
+// On significant moment (optional)
+await herald.reflect({
+  session: roomId,
+  feeling: 'success',
+  insight: 'User completed fire risk assessment',
+});
 ```
 
 ### Pseudonym Generation
