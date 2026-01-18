@@ -14,6 +14,47 @@ Wave is a collaborative AI workspace where teams (humans + agents) work together
 
 ---
 
+## ⚠️ MANDATORY: Herald Reflection Protocol
+
+**You MUST call Herald at least once per task.** This is not optional.
+
+### When to Call Herald
+
+| Situation | Action | Tool |
+|-----------|--------|------|
+| **Stuck** (>15 min on same issue) | Capture the blocker | `herald_reflect` feeling=stuck |
+| **Complex decision** (multiple valid approaches) | Get AI analysis | `herald_simulate` |
+| **Success** (feature working, test passing) | Capture what worked | `herald_reflect` feeling=success |
+| **Failure** (build broken, test failing) | Capture what failed | `herald_reflect` feeling=stuck |
+| **Task complete** | Reflect on overall outcome | `herald_reflect` |
+
+### Examples
+
+```bash
+# Stuck on streaming implementation
+herald_reflect --session "wave-chat" --feeling stuck --insight "Vercel AI SDK streaming not working with Firebase auth middleware"
+
+# Complex architecture decision
+herald_simulate --session "wave-rooms" --feeling stuck --insight "Choosing between Firestore vs Postgres for room storage"
+
+# Feature working
+herald_reflect --session "wave-chat" --feeling success --insight "Streaming works by separating auth check from stream response"
+
+# Task complete
+herald_reflect --session "wave-mvp" --feeling success --insight "MVP complete: rooms, chat, streaming, Herald integration"
+```
+
+### Minimum Requirements
+
+- [ ] **At least 1 Herald call per task** (mandatory)
+- [ ] Call `herald_reflect` with feeling=stuck when blocked
+- [ ] Call `herald_simulate` for complex decisions
+- [ ] Call `herald_reflect` with feeling=success on completion
+
+**DO NOT mark task complete without at least one Herald reflection.**
+
+---
+
 ## Core Principles
 
 ### 1. Collaboration First
@@ -246,6 +287,7 @@ Before PR:
 - [ ] Mobile responsive
 - [ ] Herald integration tested
 - [ ] Error handling in place
+- [ ] **Herald reflection called at least once** (MANDATORY)
 
 ---
 
