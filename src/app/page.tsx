@@ -1,6 +1,20 @@
+'use client';
+
 import Link from 'next/link';
+import { useAuth } from '@workos-inc/authkit-nextjs';
+import { useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 
 export default function Home() {
+  const { isLoaded, user } = useAuth();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (isLoaded && user) {
+      router.push('/chat');
+    }
+  }, [isLoaded, user, router]);
+
   return (
     <main className="min-h-screen flex flex-col items-center justify-center p-8">
       <div className="text-center max-w-2xl">
@@ -14,12 +28,16 @@ export default function Home() {
           Where teams and AI work together. Enterprise-grade collaboration with pattern memory.
         </p>
         <div className="flex gap-4 justify-center">
-          <Link
-            href="/api/auth/signin"
-            className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-lg font-medium transition-colors"
-          >
-            Sign In
-          </Link>
+          {isLoaded ? (
+            <Link
+              href="/api/auth/signin"
+              className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-lg font-medium transition-colors"
+            >
+              Sign In
+            </Link>
+          ) : (
+            <div className="text-gray-400">Loading...</div>
+          )}
         </div>
       </div>
       <footer className="absolute bottom-8 text-gray-600 text-sm">
