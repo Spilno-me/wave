@@ -1,15 +1,6 @@
 import Link from 'next/link';
-import { redirect } from 'next/navigation';
-import { getUser } from '@workos-inc/authkit-nextjs';
 
-export default async function Home() {
-  const { user } = await getUser();
-
-  // If user is already logged in, redirect to chat
-  if (user) {
-    redirect('/chat');
-  }
-
+export default function Home() {
   return (
     <main className="min-h-screen flex flex-col items-center justify-center p-8">
       <div className="text-center max-w-2xl">
