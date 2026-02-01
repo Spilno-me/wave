@@ -1,6 +1,15 @@
 import Link from 'next/link';
+import { redirect } from 'next/navigation';
+import { getUser } from '@workos-inc/authkit-nextjs';
 
-export default function Home() {
+export default async function Home() {
+  const { user } = await getUser();
+
+  // If user is already logged in, redirect to chat
+  if (user) {
+    redirect('/chat');
+  }
+
   return (
     <main className="min-h-screen flex flex-col items-center justify-center p-8">
       <div className="text-center max-w-2xl">
@@ -15,14 +24,8 @@ export default function Home() {
         </p>
         <div className="flex gap-4 justify-center">
           <Link
-            href="/chat"
-            className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-lg font-medium transition-colors"
-          >
-            Start Session
-          </Link>
-          <Link
             href="/api/auth/signin"
-            className="border border-gray-700 hover:border-gray-500 text-gray-300 px-8 py-3 rounded-lg font-medium transition-colors"
+            className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-lg font-medium transition-colors"
           >
             Sign In
           </Link>
