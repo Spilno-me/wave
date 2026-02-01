@@ -16,7 +16,15 @@ export default function ChatPage() {
             <h1 className="text-xl font-semibold text-white">Wave</h1>
             <span className="text-xs bg-blue-600/20 text-blue-400 px-2 py-1 rounded">Session</span>
           </div>
-          <span className="text-gray-500 text-sm">CEDA Collaborative Workspace</span>
+          <div className="flex items-center gap-4">
+            <span className="text-gray-500 text-sm">CEDA Collaborative Workspace</span>
+            <a
+              href="/api/auth/signout"
+              className="text-gray-400 hover:text-white text-sm px-3 py-1.5 border border-gray-700 hover:border-gray-500 rounded transition-colors"
+            >
+              Sign out
+            </a>
+          </div>
         </div>
       </header>
 
