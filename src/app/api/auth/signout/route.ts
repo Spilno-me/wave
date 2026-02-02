@@ -1,15 +1,16 @@
-import { signOut } from '@workos-inc/authkit-nextjs';
 import { NextResponse } from 'next/server';
 
 export async function GET() {
-  try {
-    // signOut returns a redirect response
-    return signOut();
-  } catch (error) {
-    console.error('Signout error:', error);
-    // Fallback: redirect to home and clear cookies manually
-    const response = NextResponse.redirect(new URL('/', process.env.NEXT_PUBLIC_APP_URL || 'https://wave.getceda.com'));
-    response.cookies.delete('wos-session');
-    return response;
-  }
+  const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://wave.getceda.com';
+
+  // Manual signout: clear WorkOS session cookie and redirect
+  const response = NextResponse.redirect(new URL('/', baseUrl));
+
+  // Delete the WorkOS session cookie
+  response.cookies.set('wos-session', '', {
+    expires: new Date(0),
+    path: '/',
+  });
+
+  return response;
 }
