@@ -5,7 +5,7 @@ export default authkitMiddleware({
   // Routes that don't require authentication
   middlewareAuth: {
     enabled: true,
-    unauthenticatedPaths: ['/', '/api/health', '/api/auth/signin', '/api/auth/callback', '/api/auth/signout'],
+    unauthenticatedPaths: ['/', '/api/health', '/api/auth/signin', '/api/auth/callback'],
   },
 });
 
